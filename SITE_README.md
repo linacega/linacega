@@ -1,31 +1,31 @@
-# CEGALAB Empleo IA
+# WM Logistik
 
-Landing comercial para vender asesorías de empleabilidad con enfoque en LinkedIn, CV, inteligencia artificial, networking, plataformas de empleo, entrevistas y seguimiento.
+Sitio corporativo de WM Logistik, diseñado para presentar sus soluciones de consultoría logística, diagnóstico logístico-financiero, capacitación, mentoría, operación y última milla.
+
+## Identidad
+
+- Azul corporativo: `#103964`
+- Naranja: `#EA7D1B`
+- Enfoque visual: sobrio, técnico, elegante y orientado a conversión.
 
 ## Archivo principal
 
-- `index.html`: sitio completo, responsivo y sin proceso de compilación.
+- `index.html`
+- `styles.css`
+- `script.js`
+- `assets/wm-logistik-logo.svg`
+- `assets/favicon.svg`
 
-## Conversión
+## Contacto
 
-Todos los CTA llevan a WhatsApp de CEGALAB: `+57 301 515 6788`.
+Los CTA y el formulario abren WhatsApp de WM Logistik: `+57 324 583 5162`.
 
-La landing incluye un diagnóstico interactivo 6P. El resultado genera un mensaje personalizado para WhatsApp.
-
-## Publicación recomendada
-
-Usar Cloudflare Pages conectado a este repositorio:
+## Despliegue en Cloudflare Pages
 
 - Repositorio: `linacega/linacega`
-- Rama de producción: `main`
+- Rama de producción para este sitio: `wm-logistik`
 - Framework preset: `None`
 - Build command: dejar vacío
 - Build output directory: `/`
 
-## Dominio recomendado
-
-Primera opción: `empleo.cegalab.com` como subdominio de la marca CEGALAB, evitando comprar un dominio adicional en la etapa inicial.
-
-## Identidad
-
-Estética CEGALAB: verde oscuro, acento lima/neón y coral; mensajes directos orientados a Growth, IA y resultados medibles.
+El sitio es estático y no requiere Node, dependencias ni proceso de compilación.
