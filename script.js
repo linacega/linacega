@@ -1,48 +1,33 @@
 ['site-unified.css','mobile-menu.css'].forEach(href=>{if(!document.querySelector(`link[href="${href}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.appendChild(l);}});
 
-/* Un único logo aprobado en todo el sitio */
+/* Un solo logo: el archivo exacto suministrado por la marca */
 document.querySelectorAll('.site-header .brand img,.footer img').forEach(img=>{
-  img.src='assets/wm-logistik-logo.svg';
-  img.alt='WM Logistik';
+  img.src='assets/logowmlogisticcontable.svg';
+  img.alt='WM Logistik Contable. Soluciones contables y financieras para pymes';
 });
 document.querySelectorAll('.brand-descriptor').forEach(el=>el.remove());
 
-/* Un único menú en todas las páginas */
 const nav=document.querySelector('.nav');
 const isHome=!document.body.classList.contains('landing-page');
-const isAccounting=document.body.classList.contains('accounting-landing');
-const isFinancial=document.body.classList.contains('financial-landing');
 
 if(nav){
-  const hrefs=isHome?{
-    home:'#inicio',
-    logistica:'#logistica',
-    financiera:'financiera.html',
-    contable:'contable.html',
-    prediagnostico:'#prediagnostico',
-    metodo:'#metodo',
-    contacto:'#contacto'
-  }:{
-    home:'index.html',
-    logistica:'index.html#logistica',
-    financiera:'financiera.html',
-    contable:'contable.html',
-    prediagnostico:'index.html#prediagnostico',
-    metodo:'index.html#metodo',
-    contacto:'index.html#contacto'
-  };
-
+  const base=isHome?'':'index.html';
   nav.innerHTML=`
-    <a href="${hrefs.home}"${isHome?' class="active-link"':''}>Home</a>
-    <a href="${hrefs.logistica}">Logística</a>
-    <a href="${hrefs.financiera}"${isFinancial?' class="active-link"':''}>Financiera</a>
-    <a href="${hrefs.contable}"${isAccounting?' class="active-link"':''}>Contable</a>
-    <a href="${hrefs.prediagnostico}">Prediagnóstico</a>
-    <a href="${hrefs.metodo}">Cómo trabajamos</a>
-    <a class="btn btn-dark btn-sm" href="${hrefs.contacto}">Hablemos</a>`;
+    <a class="nav-home" href="${isHome?'#inicio':'index.html'}">Home</a>
+    <div class="nav-dropdown">
+      <button class="nav-dropdown-toggle" type="button" aria-expanded="false">Servicios <span>⌄</span></button>
+      <div class="nav-dropdown-menu">
+        <a href="${base}#logistica">Logística</a>
+        <a href="financiera.html">Financiera</a>
+        <a href="contable.html">Contable</a>
+        <a href="${base}#prediagnostico">Prediagnóstico</a>
+      </div>
+    </div>
+    <a href="${base}#diferencia">Nosotros</a>
+    <a href="${base}#contacto">Contacto</a>`;
 }
 
-/* Home: orden comercial consistente */
+/* Orden comercial consistente en el home */
 const visualGrid=document.querySelector('.visual-grid');
 if(visualGrid){
   const cards=[...visualGrid.children];
@@ -55,20 +40,32 @@ const lNo=document.querySelector('.logistics-section .line-number');if(lNo)lNo.t
 const heroLead=document.querySelector('.hero-pro .hero-copy>p');
 if(heroLead)heroLead.textContent='Integramos logística, finanzas y contabilidad para que tu empresa tenga una operación más eficiente, información confiable y decisiones con mayor control.';
 
-/* Menú móvil */
+/* Menú principal y dropdown */
 const menuBtn=document.querySelector('.menu-toggle');
+const drop=document.querySelector('.nav-dropdown');
+const dropBtn=document.querySelector('.nav-dropdown-toggle');
 menuBtn?.addEventListener('click',()=>{
   const open=nav?.classList.toggle('open');
   menuBtn.setAttribute('aria-expanded',String(open));
   menuBtn.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');
   menuBtn.textContent=open?'×':'☰';
 });
+dropBtn?.addEventListener('click',e=>{
+  e.stopPropagation();
+  const open=drop?.classList.toggle('open');
+  dropBtn.setAttribute('aria-expanded',String(open));
+});
+document.addEventListener('click',e=>{
+  if(drop && !drop.contains(e.target)){drop.classList.remove('open');dropBtn?.setAttribute('aria-expanded','false');}
+});
 document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>{
   nav?.classList.remove('open');
+  drop?.classList.remove('open');
   if(menuBtn){menuBtn.setAttribute('aria-expanded','false');menuBtn.setAttribute('aria-label','Abrir menú');menuBtn.textContent='☰';}
+  dropBtn?.setAttribute('aria-expanded','false');
 }));
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav?.classList.contains('open')){nav.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');menuBtn?.setAttribute('aria-label','Abrir menú');if(menuBtn)menuBtn.textContent='☰';}});
-window.addEventListener('resize',()=>{if(window.innerWidth>940&&nav?.classList.contains('open')){nav.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');menuBtn?.setAttribute('aria-label','Abrir menú');if(menuBtn)menuBtn.textContent='☰';}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){nav?.classList.remove('open');drop?.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');dropBtn?.setAttribute('aria-expanded','false');if(menuBtn)menuBtn.textContent='☰';}});
+window.addEventListener('resize',()=>{if(window.innerWidth>940){nav?.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');if(menuBtn)menuBtn.textContent='☰';}});
 
 /* Animaciones y formulario */
 const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:.1});
