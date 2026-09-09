@@ -1,6 +1,6 @@
-const mobileMenuStyles=document.createElement('link');mobileMenuStyles.rel='stylesheet';mobileMenuStyles.href='mobile-menu.css';document.head.appendChild(mobileMenuStyles);
+['site-unified.css','mobile-menu.css'].forEach(href=>{if(!document.querySelector(`link[href="${href}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.appendChild(l);}});
 
-/* Orden comercial consistente: Logística → Financiera → Contable */
+/* Navegación única: Logística → Financiera → Contable */
 const nav=document.querySelector('.nav');
 if(nav){
   const links=[...nav.querySelectorAll('a')];
@@ -12,9 +12,11 @@ if(nav){
   const prediag=byText('prediagnóstico');
   const como=byText('cómo trabajamos');
   const hablemos=byText('hablemos');
-  [inicio,logistica,financiera,contable,prediag,como,hablemos].filter(Boolean).forEach(a=>nav.appendChild(a));
+  if(inicio) inicio.remove();
+  [logistica,financiera,contable,prediag,como,hablemos].filter(Boolean).forEach(a=>nav.appendChild(a));
 }
 
+/* Home: mismo orden comercial y menos duplicación */
 const visualGrid=document.querySelector('.visual-grid');
 if(visualGrid){
   const cards=[...visualGrid.children];
@@ -23,32 +25,19 @@ if(visualGrid){
   const kicker=document.querySelector('.visual-services .section-title .kicker');
   if(kicker) kicker.textContent='Logística. Finanzas. Contabilidad.';
 }
-
-const specialty=document.querySelector('.specialty-section');
-const logistics=document.querySelector('.logistics-section');
-if(specialty&&logistics&&specialty.parentNode===logistics.parentNode){specialty.parentNode.insertBefore(logistics,specialty);}
-const specialtyGrid=document.querySelector('.specialty-grid');
-if(specialtyGrid){
-  const financial=specialtyGrid.querySelector('.financial-card');
-  const accounting=specialtyGrid.querySelector('.accounting-card');
-  if(financial) specialtyGrid.appendChild(financial);
-  if(accounting) specialtyGrid.appendChild(accounting);
-  const fNo=financial?.querySelector('.line-number'); if(fNo) fNo.textContent='02';
-  const aNo=accounting?.querySelector('.line-number'); if(aNo) aNo.textContent='03';
-}
 const lNo=document.querySelector('.logistics-section .line-number'); if(lNo) lNo.textContent='01';
 const heroLead=document.querySelector('.hero-pro .hero-copy>p');
 if(heroLead) heroLead.textContent='Integramos logística, finanzas y contabilidad para que tu empresa tenga una operación más eficiente, información confiable y decisiones con mayor control.';
 
 const menuBtn=document.querySelector('.menu-toggle');
-menuBtn?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(open));menuBtn.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');menuBtn.textContent=open?'×':'☰'});
-document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');if(menuBtn){menuBtn.setAttribute('aria-expanded','false');menuBtn.setAttribute('aria-label','Abrir menú');menuBtn.textContent='☰'}}));
+menuBtn?.addEventListener('click',()=>{const open=nav?.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(open));menuBtn.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');menuBtn.textContent=open?'×':'☰'});
+document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>{nav?.classList.remove('open');if(menuBtn){menuBtn.setAttribute('aria-expanded','false');menuBtn.setAttribute('aria-label','Abrir menú');menuBtn.textContent='☰'}}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav?.classList.contains('open')){nav.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');menuBtn?.setAttribute('aria-label','Abrir menú');if(menuBtn)menuBtn.textContent='☰'}});
 window.addEventListener('resize',()=>{if(window.innerWidth>940&&nav?.classList.contains('open')){nav.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');menuBtn?.setAttribute('aria-label','Abrir menú');if(menuBtn)menuBtn.textContent='☰'}});
 
 const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-const year=document.getElementById('year'); if(year) year.textContent=new Date().getFullYear();
+const year=document.getElementById('year');if(year)year.textContent=new Date().getFullYear();
 const pdForm=document.getElementById('prediagnostic-form');
 const fields=['pd-area','pd-problem','pd-operating','pd-urgency','pd-company'].map(id=>document.getElementById(id));
 const progress=document.getElementById('progress-bar');
