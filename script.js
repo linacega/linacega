@@ -1,5 +1,8 @@
 ['site-unified.css','mobile-menu.css'].forEach(href=>{if(!document.querySelector(`link[href="${href}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.appendChild(l);}});
 
+/* Un solo logo institucional en encabezados y pies de página */
+document.querySelectorAll('.site-header .brand img,.footer img').forEach(img=>{img.src='assets/wm-logistik-logo.svg';img.alt='WM Logistik';});
+
 /* Navegación única: Logística → Financiera → Contable */
 const nav=document.querySelector('.nav');
 if(nav){
@@ -25,9 +28,9 @@ if(visualGrid){
   const kicker=document.querySelector('.visual-services .section-title .kicker');
   if(kicker) kicker.textContent='Logística. Finanzas. Contabilidad.';
 }
-const lNo=document.querySelector('.logistics-section .line-number'); if(lNo) lNo.textContent='01';
+const lNo=document.querySelector('.logistics-section .line-number');if(lNo)lNo.textContent='01';
 const heroLead=document.querySelector('.hero-pro .hero-copy>p');
-if(heroLead) heroLead.textContent='Integramos logística, finanzas y contabilidad para que tu empresa tenga una operación más eficiente, información confiable y decisiones con mayor control.';
+if(heroLead)heroLead.textContent='Integramos logística, finanzas y contabilidad para que tu empresa tenga una operación más eficiente, información confiable y decisiones con mayor control.';
 
 const menuBtn=document.querySelector('.menu-toggle');
 menuBtn?.addEventListener('click',()=>{const open=nav?.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(open));menuBtn.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');menuBtn.textContent=open?'×':'☰'});
