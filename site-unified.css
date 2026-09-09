@@ -2,21 +2,27 @@
 :root{--wm-column:1080px;--wm-gap:28px;--wm-radius:28px;--wm-shadow:0 18px 50px rgba(31,38,42,.10)}
 body{background:#eef1f2}
 .site-header{background:#171c20!important;border-bottom:1px solid rgba(255,255,255,.08)!important}
-.site-header .header-inner{min-height:88px!important;gap:18px!important}
-.site-header .brand,.site-header .brand.brand-lockup,.site-header .brand.brand-lockup-contable{display:flex!important;align-items:center!important;justify-content:center!important;width:178px!important;min-width:178px!important;max-width:178px!important;height:70px!important;padding:5px!important;background:#fff!important;border:0!important;border-radius:12px!important;box-shadow:none!important;overflow:hidden!important}
-.site-header .brand img,.site-header .brand.brand-lockup img,.site-header .brand.brand-lockup-contable img{display:block!important;width:100%!important;max-width:100%!important;height:100%!important;max-height:none!important;object-fit:contain!important;opacity:1!important;visibility:visible!important}
+.site-header .header-inner{min-height:92px!important;gap:18px!important}
+
+/* Un solo logo, exactamente el mismo en todas las páginas */
+.site-header .brand,.site-header .brand.brand-lockup,.site-header .brand.brand-lockup-contable{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:190px!important;min-width:190px!important;max-width:190px!important;height:80px!important;
+  padding:4px!important;background:#b8b5ae!important;border:0!important;border-radius:10px!important;
+  box-shadow:none!important;overflow:hidden!important;flex:0 0 auto!important;
+}
+.site-header .brand img,.site-header .brand.brand-lockup img,.site-header .brand.brand-lockup-contable img{
+  display:block!important;width:100%!important;max-width:100%!important;height:100%!important;max-height:none!important;
+  object-fit:contain!important;opacity:1!important;visibility:visible!important;
+}
 .brand-descriptor{display:none!important}
 .footer-inner img{width:150px!important;height:auto!important;border-radius:8px}
 
-/* Orden único de navegación */
-.site-header .nav{display:flex;align-items:center;gap:22px}
-.site-header .nav a[href*="logistica"]{order:1}
-.site-header .nav a[href="financiera.html"]{order:2}
-.site-header .nav a[href="contable.html"]{order:3}
-.site-header .nav a[href*="prediagnostico"]{order:4}
-.site-header .nav a[href*="metodo"]{order:5}
-.site-header .nav a[href*="contacto"],.site-header .nav .btn{order:6}
-.landing-page .site-header .nav>a[href="index.html"]{display:none!important}
+/* Mismo menú en todas las páginas: Home → Logística → Financiera → Contable → Prediagnóstico → Cómo trabajamos → Hablemos */
+.site-header .nav{display:flex;align-items:center;gap:18px}
+.site-header .nav>a{order:initial!important}
+.site-header .nav>a[href="index.html"],
+.site-header .nav>a[href="#inicio"]{display:flex!important}
 
 /* Una columna central para todo el sitio */
 main{padding:18px 0 36px}
@@ -40,9 +46,6 @@ body:not(.landing-page) .contact-section{order:9}
 
 /* Orden de líneas: Logística, Financiera, Contable */
 body:not(.landing-page) .visual-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
-body:not(.landing-page) .visual-grid .visual-card:nth-child(3){order:1}
-body:not(.landing-page) .visual-grid .visual-card:nth-child(2){order:2}
-body:not(.landing-page) .visual-grid .visual-card:nth-child(1){order:3}
 
 /* Ritmo visual consistente */
 .visual-services,.lp-services,.lp-pricing,.lp-process,.method-section{background:#fff!important}
@@ -69,8 +72,8 @@ body:not(.landing-page) .visual-grid .visual-card:nth-child(1){order:3}
 
 @media(max-width:940px){
   :root{--wm-gap:18px;--wm-radius:22px}
-  .site-header .header-inner{min-height:76px!important}
-  .site-header .brand,.site-header .brand.brand-lockup,.site-header .brand.brand-lockup-contable{width:145px!important;min-width:145px!important;max-width:145px!important;height:60px!important;padding:4px!important}
+  .site-header .header-inner{min-height:78px!important}
+  .site-header .brand,.site-header .brand.brand-lockup,.site-header .brand.brand-lockup-contable{width:150px!important;min-width:150px!important;max-width:150px!important;height:66px!important;padding:3px!important}
   main{padding-top:8px}
   main>section,.landing-page main>section{width:calc(100% - 20px)!important;margin:18px auto!important;border-radius:22px!important}
   main>section .container{width:calc(100% - 34px)!important}
@@ -85,7 +88,7 @@ body:not(.landing-page) .visual-grid .visual-card:nth-child(1){order:3}
 
 @media(max-width:640px){
   :root{--wm-radius:18px}
-  .site-header .brand,.site-header .brand.brand-lockup,.site-header .brand.brand-lockup-contable{width:128px!important;min-width:128px!important;max-width:128px!important;height:54px!important}
+  .site-header .brand,.site-header .brand.brand-lockup,.site-header .brand.brand-lockup-contable{width:132px!important;min-width:132px!important;max-width:132px!important;height:58px!important}
   main>section,.landing-page main>section{width:calc(100% - 14px)!important;border-radius:18px!important}
   main>section .container{width:calc(100% - 26px)!important}
   .lp-hero{padding:54px 0!important}
