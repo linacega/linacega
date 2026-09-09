@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 220" role="img" aria-labelledby="title desc">
+  <title id="title">WM Logistik Contable</title>
+  <desc id="desc">WM Logistik Contable, soluciones contables y financieras para pymes</desc>
+  <rect width="980" height="220" rx="24" fill="#ffffff"/>
+  <g transform="translate(28 30)">
+    <path d="M16 32 L58 144 L98 76 L136 144 L178 32" fill="none" stroke="#0F4F86" stroke-width="26" stroke-linejoin="miter"/>
+    <path d="M104 144 L146 76 L188 144 L232 32" fill="none" stroke="#FF7A00" stroke-width="26" stroke-linejoin="miter"/>
+    <path d="M214 55 L254 15 L266 63" fill="#FF7A00"/>
+    <path d="M8 132 C52 182 157 188 240 132" fill="none" stroke="#FF7A00" stroke-width="8" stroke-linecap="round"/>
+    <path d="M30 142 C86 179 170 174 232 137" fill="none" stroke="#0F4F86" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <line x1="318" y1="34" x2="318" y2="186" stroke="#9A9A9A" stroke-width="3"/>
+  <text x="350" y="84" font-family="Inter,Arial,Helvetica,sans-serif" font-size="58" font-weight="900" fill="#0F4F86">Logistik</text>
+  <text x="350" y="146" font-family="Inter,Arial,Helvetica,sans-serif" font-size="58" font-weight="900" fill="#FF7A00">Contable</text>
+  <text x="352" y="179" font-family="Inter,Arial,Helvetica,sans-serif" font-size="24" font-weight="700" fill="#686D72">Soluciones contables y financieras</text>
+  <text x="352" y="207" font-family="Inter,Arial,Helvetica,sans-serif" font-size="24" font-weight="700" fill="#686D72">para pymes</text>
+</svg>
