@@ -4,5 +4,20 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   X-Frame-Options: SAMEORIGIN
 
+/
+  Cache-Control: no-cache
+
+/*.html
+  Cache-Control: no-cache
+
+/styles.css
+  Cache-Control: no-cache
+
+/script.js
+  Cache-Control: no-cache
+
+/assets/logowmlogisticcontable.jpeg
+  Cache-Control: no-cache
+
 /assets/*
-  Cache-Control: public, max-age=604800
+  Cache-Control: public, max-age=3600
