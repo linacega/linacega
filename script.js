@@ -1,4 +1,4 @@
-/* WM Logistik: navegación única y sin inyección de estilos conflictivos */
+/* WM Logistik: navegación única, landings conectadas y sin estilos inyectados */
 
 document.querySelectorAll('.site-header .brand img,.footer img').forEach(img=>{
   img.src='assets/logowmlogisticcontable.svg';
@@ -8,37 +8,51 @@ document.querySelectorAll('.brand-descriptor').forEach(el=>el.remove());
 
 const nav=document.querySelector('.nav');
 const isHome=!document.body.classList.contains('landing-page');
+const isLogistics=document.body.classList.contains('logistics-landing');
+const isFinancial=document.body.classList.contains('financial-landing');
+const isAccounting=document.body.classList.contains('accounting-landing');
 
+/* El mismo menú en Inicio, Logística, Financiera y Contable */
 if(nav){
-  const base=isHome?'':'index.html';
   nav.innerHTML=`
-    <a class="nav-home" href="${isHome?'#inicio':'index.html'}">Home</a>
+    <a class="nav-home${isHome?' active-link':''}" href="${isHome?'#inicio':'index.html'}">Home</a>
     <div class="nav-dropdown">
-      <button class="nav-dropdown-toggle" type="button" aria-expanded="false">Servicios <span>⌄</span></button>
+      <button class="nav-dropdown-toggle${(isLogistics||isFinancial||isAccounting)?' active-service':''}" type="button" aria-expanded="false">Servicios <span>⌄</span></button>
       <div class="nav-dropdown-menu">
-        <a href="${base}#logistica">Logística</a>
-        <a href="financiera.html">Financiera</a>
-        <a href="contable.html">Contable</a>
-        <a href="${base}#prediagnostico">Prediagnóstico</a>
+        <a${isLogistics?' class="active-link"':''} href="logistica.html">Logística</a>
+        <a${isFinancial?' class="active-link"':''} href="financiera.html">Financiera</a>
+        <a${isAccounting?' class="active-link"':''} href="contable.html">Contable</a>
+        <a href="${isHome?'#prediagnostico':'index.html#prediagnostico'}">Prediagnóstico</a>
       </div>
     </div>
-    <a href="${base}#diferencia">Nosotros</a>
-    <a href="${base}#contacto">Contacto</a>`;
+    <a href="${isHome?'#diferencia':'index.html#diferencia'}">Nosotros</a>
+    <a href="${isHome?'#contacto':'index.html#contacto'}">Contacto</a>`;
 }
 
-/* Orden comercial del home: Logística, Financiera, Contable */
+/* Home: orden comercial Logística → Financiera → Contable y enlaces a sus landings */
 const visualGrid=document.querySelector('.visual-grid');
 if(visualGrid){
   const cards=[...visualGrid.children];
-  const getCard=t=>cards.find(c=>c.textContent.toLowerCase().includes(t));
-  [getCard('operación'),getCard('financiera'),getCard('contable')].filter(Boolean).forEach(c=>visualGrid.appendChild(c));
+  const logisticsCard=cards.find(c=>c.textContent.toLowerCase().includes('operación'));
+  const financialCard=cards.find(c=>c.textContent.toLowerCase().includes('financiera'));
+  const accountingCard=cards.find(c=>c.textContent.toLowerCase().includes('contable'));
+  [logisticsCard,financialCard,accountingCard].filter(Boolean).forEach(c=>visualGrid.appendChild(c));
+  const logisticsLink=logisticsCard?.querySelector('a');
+  if(logisticsLink){
+    logisticsLink.href='logistica.html';
+    logisticsLink.innerHTML='Conocer solución logística <span>→</span>';
+  }
   const kicker=document.querySelector('.visual-services .section-title .kicker');
   if(kicker) kicker.textContent='Logística. Finanzas. Contabilidad.';
 }
+
+/* Enlaces antiguos de logística ahora llevan a la landing dedicada */
+document.querySelectorAll('a[href="index.html#logistica"]').forEach(a=>a.href='logistica.html');
+
 const lNo=document.querySelector('.logistics-section .line-number');
 if(lNo) lNo.textContent='01';
 
-/* Nosotros: una sección más clara, humana y comercial */
+/* Nosotros */
 const aboutSection=document.querySelector('.difference-section');
 if(aboutSection){
   aboutSection.id='diferencia';
@@ -58,13 +72,13 @@ if(aboutSection){
       <div class="about-principles reveal delay-1">
         <article><b>01</b><div><h3>Miramos el negocio completo</h3><p>Una decisión de inventario puede afectar caja; un costo operativo puede cambiar la rentabilidad. Por eso conectamos las áreas.</p></div></article>
         <article><b>02</b><div><h3>Priorizamos lo que sí mueve el resultado</h3><p>Separamos lo urgente de lo importante y concentramos el esfuerzo donde hay mayor impacto y viabilidad.</p></div></article>
-        <article><b>03</b><div><h3>Trabajamos con lenguaje claro</h3><p>Menos tecnicismo por deporte. Más información útil para que el empresario pueda decidir y hacer seguimiento.</p></div></article>
+        <article><b>03</b><div><h3>Trabajamos con lenguaje claro</h3><p>Menos tecnicismo innecesario. Más información útil para que el empresario pueda decidir y hacer seguimiento.</p></div></article>
         <article><b>04</b><div><h3>Acompañamos hasta la acción</h3><p>La mejora no termina en una recomendación. Definimos responsables, pasos e indicadores para avanzar.</p></div></article>
       </div>
     </div>`;
 }
 
-/* Contacto: formulario de captación con salida inmediata por WhatsApp */
+/* Contacto */
 const contactSection=document.querySelector('.contact-section');
 if(contactSection){
   contactSection.id='contacto';
@@ -88,34 +102,19 @@ if(contactSection){
         </div>
         <form id="contact-lead-form" class="contact-lead-form">
           <div class="contact-form-row">
-            <label>Nombre
-              <input id="lead-name" name="nombre" type="text" autocomplete="name" required placeholder="Tu nombre" />
-            </label>
-            <label>Empresa
-              <input id="lead-company" name="empresa" type="text" autocomplete="organization" required placeholder="Nombre de la empresa" />
-            </label>
+            <label>Nombre<input id="lead-name" name="nombre" type="text" autocomplete="name" required placeholder="Tu nombre" /></label>
+            <label>Empresa<input id="lead-company" name="empresa" type="text" autocomplete="organization" required placeholder="Nombre de la empresa" /></label>
           </div>
           <div class="contact-form-row">
-            <label>Correo
-              <input id="lead-email" name="correo" type="email" autocomplete="email" required placeholder="correo@empresa.com" />
-            </label>
-            <label>WhatsApp
-              <input id="lead-phone" name="whatsapp" type="tel" autocomplete="tel" required placeholder="300 000 0000" />
-            </label>
+            <label>Correo<input id="lead-email" name="correo" type="email" autocomplete="email" required placeholder="correo@empresa.com" /></label>
+            <label>WhatsApp<input id="lead-phone" name="whatsapp" type="tel" autocomplete="tel" required placeholder="300 000 0000" /></label>
           </div>
           <label>¿Qué servicio te interesa?
             <select id="lead-service" name="servicio" required>
-              <option value="">Selecciona una opción</option>
-              <option>Logística</option>
-              <option>Financiera</option>
-              <option>Contable</option>
-              <option>Prediagnóstico integral</option>
-              <option>No estoy seguro</option>
+              <option value="">Selecciona una opción</option><option>Logística</option><option>Financiera</option><option>Contable</option><option>Prediagnóstico integral</option><option>No estoy seguro</option>
             </select>
           </label>
-          <label>Cuéntanos brevemente qué está pasando
-            <textarea id="lead-message" name="mensaje" rows="4" required placeholder="Ej.: tenemos problemas de inventario, costos, caja, contabilidad atrasada..."></textarea>
-          </label>
+          <label>Cuéntanos brevemente qué está pasando<textarea id="lead-message" name="mensaje" rows="4" required placeholder="Ej.: tenemos problemas de inventario, costos, caja, contabilidad atrasada..."></textarea></label>
           <label class="contact-consent"><input id="lead-consent" type="checkbox" required /><span>Acepto ser contactado por WM Logistik para dar respuesta a esta solicitud.</span></label>
           <button class="btn btn-orange btn-full" type="submit">Enviar solicitud</button>
           <p class="contact-form-status" id="contact-form-status" aria-live="polite"></p>
@@ -124,7 +123,7 @@ if(contactSection){
     </div>`;
 }
 
-/* Menú y dropdown */
+/* Menú principal y dropdown */
 const menuBtn=document.querySelector('.menu-toggle');
 const drop=document.querySelector('.nav-dropdown');
 const dropBtn=document.querySelector('.nav-dropdown-toggle');
@@ -152,40 +151,29 @@ document.addEventListener('click',e=>{
 document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>{
   nav?.classList.remove('open');
   drop?.classList.remove('open');
-  if(menuBtn){
-    menuBtn.setAttribute('aria-expanded','false');
-    menuBtn.setAttribute('aria-label','Abrir menú');
-    menuBtn.textContent='☰';
-  }
+  if(menuBtn){menuBtn.setAttribute('aria-expanded','false');menuBtn.setAttribute('aria-label','Abrir menú');menuBtn.textContent='☰';}
   dropBtn?.setAttribute('aria-expanded','false');
 }));
 
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
-    nav?.classList.remove('open');
-    drop?.classList.remove('open');
-    menuBtn?.setAttribute('aria-expanded','false');
-    dropBtn?.setAttribute('aria-expanded','false');
-    if(menuBtn) menuBtn.textContent='☰';
+    nav?.classList.remove('open');drop?.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');dropBtn?.setAttribute('aria-expanded','false');if(menuBtn) menuBtn.textContent='☰';
   }
 });
 
 window.addEventListener('resize',()=>{
-  if(window.innerWidth>940){
-    nav?.classList.remove('open');
-    menuBtn?.setAttribute('aria-expanded','false');
-    if(menuBtn) menuBtn.textContent='☰';
-  }
+  if(window.innerWidth>940){nav?.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');if(menuBtn) menuBtn.textContent='☰';}
 });
 
 /* Animaciones */
-const io=new IntersectionObserver(entries=>entries.forEach(e=>{
-  if(e.isIntersecting){
-    e.target.classList.add('visible');
-    io.unobserve(e.target);
-  }
-}),{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(entries=>entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}
+  }),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}else{
+  document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
+}
 
 const year=document.getElementById('year');
 if(year) year.textContent=new Date().getFullYear();
@@ -194,19 +182,12 @@ if(year) year.textContent=new Date().getFullYear();
 const pdForm=document.getElementById('prediagnostic-form');
 const fields=['pd-area','pd-problem','pd-operating','pd-urgency','pd-company'].map(id=>document.getElementById(id));
 const progress=document.getElementById('progress-bar');
-function updateProgress(){
-  const done=fields.filter(f=>String(f?.value||'').trim()).length;
-  if(progress) progress.style.width=`${done/fields.length*100}%`;
-}
+function updateProgress(){const done=fields.filter(f=>String(f?.value||'').trim()).length;if(progress) progress.style.width=`${done/fields.length*100}%`;}
 fields.forEach(f=>f?.addEventListener('input',updateProgress));
 
 document.querySelectorAll('[data-focus]').forEach(link=>link.addEventListener('click',()=>{
   const area=document.getElementById('pd-area');
-  setTimeout(()=>{
-    if(!area) return;
-    area.value=link.dataset.focus==='contable'?'Contable / tributaria':'Logística / inventarios';
-    updateProgress();
-  },350);
+  setTimeout(()=>{if(!area) return;area.value=link.dataset.focus==='contable'?'Contable / tributaria':'Logística / inventarios';updateProgress();},350);
 }));
 
 pdForm?.addEventListener('submit',e=>{
