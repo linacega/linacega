@@ -1,6 +1,5 @@
-['site-unified.css','mobile-menu.css'].forEach(href=>{if(!document.querySelector(`link[href="${href}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.appendChild(l);}});
+/* WM Logistik: navegación única y sin inyección de estilos conflictivos */
 
-/* Un solo logo: el archivo exacto suministrado por la marca */
 document.querySelectorAll('.site-header .brand img,.footer img').forEach(img=>{
   img.src='assets/logowmlogisticcontable.svg';
   img.alt='WM Logistik Contable. Soluciones contables y financieras para pymes';
@@ -27,7 +26,7 @@ if(nav){
     <a href="${base}#contacto">Contacto</a>`;
 }
 
-/* Orden comercial consistente en el home */
+/* Orden comercial del home: Logística, Financiera, Contable */
 const visualGrid=document.querySelector('.visual-grid');
 if(visualGrid){
   const cards=[...visualGrid.children];
@@ -36,47 +35,94 @@ if(visualGrid){
   const kicker=document.querySelector('.visual-services .section-title .kicker');
   if(kicker) kicker.textContent='Logística. Finanzas. Contabilidad.';
 }
-const lNo=document.querySelector('.logistics-section .line-number');if(lNo)lNo.textContent='01';
-const heroLead=document.querySelector('.hero-pro .hero-copy>p');
-if(heroLead)heroLead.textContent='Integramos logística, finanzas y contabilidad para que tu empresa tenga una operación más eficiente, información confiable y decisiones con mayor control.';
+const lNo=document.querySelector('.logistics-section .line-number');
+if(lNo) lNo.textContent='01';
 
-/* Menú principal y dropdown */
+/* Menú y dropdown */
 const menuBtn=document.querySelector('.menu-toggle');
 const drop=document.querySelector('.nav-dropdown');
 const dropBtn=document.querySelector('.nav-dropdown-toggle');
+
 menuBtn?.addEventListener('click',()=>{
   const open=nav?.classList.toggle('open');
   menuBtn.setAttribute('aria-expanded',String(open));
   menuBtn.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');
   menuBtn.textContent=open?'×':'☰';
 });
+
 dropBtn?.addEventListener('click',e=>{
   e.stopPropagation();
   const open=drop?.classList.toggle('open');
   dropBtn.setAttribute('aria-expanded',String(open));
 });
+
 document.addEventListener('click',e=>{
-  if(drop && !drop.contains(e.target)){drop.classList.remove('open');dropBtn?.setAttribute('aria-expanded','false');}
+  if(drop && !drop.contains(e.target)){
+    drop.classList.remove('open');
+    dropBtn?.setAttribute('aria-expanded','false');
+  }
 });
+
 document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>{
   nav?.classList.remove('open');
   drop?.classList.remove('open');
-  if(menuBtn){menuBtn.setAttribute('aria-expanded','false');menuBtn.setAttribute('aria-label','Abrir menú');menuBtn.textContent='☰';}
+  if(menuBtn){
+    menuBtn.setAttribute('aria-expanded','false');
+    menuBtn.setAttribute('aria-label','Abrir menú');
+    menuBtn.textContent='☰';
+  }
   dropBtn?.setAttribute('aria-expanded','false');
 }));
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){nav?.classList.remove('open');drop?.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');dropBtn?.setAttribute('aria-expanded','false');if(menuBtn)menuBtn.textContent='☰';}});
-window.addEventListener('resize',()=>{if(window.innerWidth>940){nav?.classList.remove('open');menuBtn?.setAttribute('aria-expanded','false');if(menuBtn)menuBtn.textContent='☰';}});
 
-/* Animaciones y formulario */
-const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}}),{threshold:.1});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    nav?.classList.remove('open');
+    drop?.classList.remove('open');
+    menuBtn?.setAttribute('aria-expanded','false');
+    dropBtn?.setAttribute('aria-expanded','false');
+    if(menuBtn) menuBtn.textContent='☰';
+  }
+});
+
+window.addEventListener('resize',()=>{
+  if(window.innerWidth>940){
+    nav?.classList.remove('open');
+    menuBtn?.setAttribute('aria-expanded','false');
+    if(menuBtn) menuBtn.textContent='☰';
+  }
+});
+
+/* Animaciones */
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting){
+    e.target.classList.add('visible');
+    io.unobserve(e.target);
+  }
+}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-const year=document.getElementById('year');if(year)year.textContent=new Date().getFullYear();
+
+const year=document.getElementById('year');
+if(year) year.textContent=new Date().getFullYear();
+
+/* Prediagnóstico */
 const pdForm=document.getElementById('prediagnostic-form');
 const fields=['pd-area','pd-problem','pd-operating','pd-urgency','pd-company'].map(id=>document.getElementById(id));
 const progress=document.getElementById('progress-bar');
-function updateProgress(){const done=fields.filter(f=>String(f?.value||'').trim()).length;if(progress)progress.style.width=`${done/fields.length*100}%`;}
+function updateProgress(){
+  const done=fields.filter(f=>String(f?.value||'').trim()).length;
+  if(progress) progress.style.width=`${done/fields.length*100}%`;
+}
 fields.forEach(f=>f?.addEventListener('input',updateProgress));
-document.querySelectorAll('[data-focus]').forEach(link=>link.addEventListener('click',()=>{const area=document.getElementById('pd-area');setTimeout(()=>{if(!area)return;area.value=link.dataset.focus==='contable'?'Contable / tributaria':'Logística / inventarios';updateProgress();},350);}));
+
+document.querySelectorAll('[data-focus]').forEach(link=>link.addEventListener('click',()=>{
+  const area=document.getElementById('pd-area');
+  setTimeout(()=>{
+    if(!area) return;
+    area.value=link.dataset.focus==='contable'?'Contable / tributaria':'Logística / inventarios';
+    updateProgress();
+  },350);
+}));
+
 pdForm?.addEventListener('submit',e=>{
   e.preventDefault();
   const area=document.getElementById('pd-area').value;
